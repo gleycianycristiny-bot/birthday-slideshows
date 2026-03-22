@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Slideshow</title>
+    <style>
+        body { text-align: center; }
+        .gallery img { width: 200px; margin: 10px; }
+        #countdown { font-size: 2em; }
+    </style>
+</head>
+<body>
+    <h1>Happy Birthday!</h1>
+    
+    <!-- Countdown Timer -->
+    <div id="countdown"></div>
+
+    <!-- Photo Gallery -->
+    <div class="gallery">
+        <img src="foto1.jpg" alt="Photo 1">
+        <img src="foto2.jpg" alt="Photo 2">
+        <img src="foto3.jpg" alt="Photo 3">
+        <img src="foto4.jpg" alt="Photo 4">
+    </div>
+
+    <!-- Background Music -->
+    <audio controls autoplay loop id="birthdayMusic">
+        <source src="happy-birthday.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Drum Game -->
+    <div id="drumGame">
+        <p>Drum Game: Click to play! You need 10 points to win.</p>
+        <button onclick="playDrum()">Hit the Drum!</button>
+        <p id="score">Score: 0</p>
+    </div>
+
+    <!-- Celebration Animation -->
+    <div id="celebration" style="display:none;">
+        <h2>🎉 Congratulations! 🎉</h2>
+        <script src="https://cdn.jsdelivr.net/npm/js-confetti/dist/js-confetti.browser.js"></script>
+        <script>
+            const jsConfetti = new JSConfetti();
+            jsConfetti.addConfetti();
+        </script>
+    </div>
+
+    <script>
+        // Countdown Timer
+        const countDownDate = new Date("2026-03-22T15:21:00").getTime();
+        const countdownFunction = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = countDownDate - now;
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            document.getElementById("countdown").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
+            if (distance < 0) {
+                clearInterval(countdownFunction);
+                document.getElementById("countdown").innerHTML = "EXPIRED";
+                document.getElementById("celebration").style.display = "block";
+            }
+        }, 1000);
+
+        // Drum Game Logic
+        let score = 0;
+        function playDrum() {
+            score++;
+            document.getElementById("score").innerText = "Score: " + score;
+            if (score >= 10) {
+                alert("You win!");
+                document.getElementById("celebration").style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>
